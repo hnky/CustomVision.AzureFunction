@@ -10,17 +10,18 @@ namespace CustomVisionFunctions
     public static class CustomVisionFunction
     {
         [FunctionName("CustomVisionFunction")]
-        public static void Run([BlobTrigger("images/{name}", Connection = "ImagesStorage")]Stream myBlob, string name, TraceWriter log)
+        public static void Run([BlobTrigger("images/{name}", Connection = "ImagesStorage")]Stream myBlob, string name, TraceWriter log, ExecutionContext context)
         {
             log.Info($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {myBlob.Length} Bytes");
+
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             var graph = new TFGraph();
 
-            var model = File.ReadAllBytes("Assets/model.pb");
-            var labels = File.ReadAllLines("Assets/labels.txt");
+            var model = File.ReadAllBytes(Path.Combine(context.FunctionDirectory, "Assets/model.pb"));
+            var labels = File.ReadAllLines(Path.Combine(context.FunctionDirectory, "Assets/labels.txt"));
             graph.Import(model);
 
             log.Info($"{name}");
