@@ -20,8 +20,8 @@ namespace CustomVisionFunctions
 
             var graph = new TFGraph();
 
-            var model = File.ReadAllBytes(Path.Combine(context.FunctionDirectory, "Assets/model.pb"));
-            var labels = File.ReadAllLines(Path.Combine(context.FunctionDirectory, "Assets/labels.txt"));
+            var model = File.ReadAllBytes(Path.Combine(context.FunctionDirectory, "../Assets/model.pb"));
+            var labels = File.ReadAllLines(Path.Combine(context.FunctionDirectory, "../Assets/labels.txt"));
             graph.Import(model);
 
             log.Info($"{name}");
